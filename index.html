@@ -119,10 +119,8 @@
     .h-cta:active{transform:scale(.95)}
 
     /* ===== HERO (painel verde curvo) ===== */
-    .hero{position:relative;background:
-        radial-gradient(120% 80% at 85% 0%,#FFD24A,transparent 55%),
-        linear-gradient(160deg,#FFC000,#FDAC17 68%,#F59410);
-      color:#1e1811;padding:30px 22px 74px;overflow:hidden;border-radius:0 0 34px 34px;perspective:1000px}
+    .hero{position:relative;background:#fff;overflow:hidden;border-radius:0 0 34px 34px}
+    .hero-banner{display:block;width:100%;height:auto}
     .hero-art{position:absolute;right:-14px;bottom:0;width:82%;max-width:346px;z-index:3;pointer-events:none;
       filter:drop-shadow(0 8px 16px rgba(120,80,12,.20));animation:noteIn .8s var(--ease-out) .2s both}
     .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;
@@ -395,21 +393,7 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="coins" id="coins" aria-hidden="true" style="transform: translateY(0px);"><span style="left: 83%; top: 7%; width: 46px; height: 46px; font-size: 19px; --po: 0.92; animation-duration: 8s; animation-delay: 0s;">$</span><span style="left: 93%; top: 33%; width: 24px; height: 24px; font-size: 10px; --po: 0.92; animation-duration: 9.7s; animation-delay: -2.1s;">R$</span><span style="left: 87%; top: 56%; width: 32px; height: 32px; font-size: 13px; --po: 0.92; animation-duration: 11.4s; animation-delay: -4.2s;">$</span></div>
-      <div class="hero-copy" id="heroCopy" style="transform: translateY(0px) translateZ(0px) rotateX(0deg); opacity: 1;">
-      <span class="badge"><span class="dot"></span> Crédito pessoal pré-aprovado</span>
-      <h1>Até <span class="hl" id="heroAmount" style="transform: translateZ(0px) scale(1); --sx: -70%;">R$ 26.906</span><br>na sua conta hoje.</h1>
-      <p class="sub">Simule sem sair de casa e receba via Pix. Crédito rápido, com parcelas que cabem no seu bolso.</p>
-
-      <div class="checks">
-        <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Aprova negativado</span>
-        <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Sem fiador</span>
-        <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Pix em 10 min</span>
-      </div>
-      </div>
-
-      <!-- composição: cliente + notificação de Pix (imagem única) -->
-      <img class="hero-art" src="images/meninasupersim.png" alt="Cliente SuperSim recebendo um Pix no celular">
+      <img class="hero-banner" src="images/banner-hero.jpg" alt="Empréstimo pessoal rápido e seguro">
     </section>
 
     <!-- SIMULADOR -->
