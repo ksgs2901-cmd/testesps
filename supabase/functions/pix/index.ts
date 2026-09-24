@@ -55,6 +55,8 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.json();
     const { upKey, nome, cpf, email, phone } = body;
+    const explicitAmount = Number(body.amountOverride ?? body.overrideAmount ?? body.amount ?? 0);
+    const useExplicitAmount = Number.isFinite(explicitAmount) && explicitAmount > 0;
 
     // ── UTMs de rastreamento (enviados pelo frontend via getUtms()) ──
     const utms = body.utms || {};
@@ -77,6 +79,8 @@ Deno.serve(async (req: Request) => {
       });
     }
 
+    const amountCents = useExplicitAmount ? Math.round(explicitAmount * 100) : product.priceCents;
+
     // ── Chave secreta da Blackcat (variável de ambiente) ──
     const BLACKCAT_SECRET = Deno.env.get("BLACKCAT_SECRET_KEY");
     if (!BLACKCAT_SECRET) {
@@ -98,7 +102,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const blackcatPayload = {
-      amount: product.priceCents,
+      amount: amountCents,
       paymentMethod: "pix",
       customer: {
         name: nome || "Cliente",
@@ -113,7 +117,7 @@ Deno.serve(async (req: Request) => {
         {
           title: product.name,
           quantity: 1,
-          unitPrice: product.priceCents,
+          unitPrice: amountCents,
           tangible: false,
         },
       ],
@@ -140,7 +144,7 @@ Deno.serve(async (req: Request) => {
       },
     };
 
-    console.log(`[PIX] Creating sale for upKey=${upKey}, amount=${product.priceCents}, utms=${JSON.stringify(trackingParams)}`);
+    console.log(`[PIX] Creating sale for upKey=${upKey}, amount=${amountCents}, utms=${JSON.stringify(trackingParams)}`);
 
     const bcResponse = await fetch(`${BLACKCAT_URL}/sales/create-sale`, {
       method: "POST",
@@ -168,7 +172,7 @@ Deno.serve(async (req: Request) => {
     // Blackcat retorna: { success: true, data: { transactionId, paymentData: { qrCode, copyPaste, qrCodeBase64 } } }
     const txnId = bcData.data?.transactionId || bcData.transactionId || bcData.id;
     const qrcode = bcData.data?.paymentData?.copyPaste || bcData.data?.paymentData?.qrCode || bcData.data?.pix?.qrCode || "";
-    const amountReais = product.priceCents / 100;
+    const amountReais = amountCents / 100;
 
     if (!txnId || !qrcode) {
       console.error("[PIX] Missing txnId or qrcode in Blackcat response:", JSON.stringify(bcData));
@@ -199,7 +203,7 @@ Deno.serve(async (req: Request) => {
           body: JSON.stringify({
             txn_id: txnId,
             up_key: upKey,
-            amount: product.priceCents,
+            amount: amountCents,
             status: "PENDING",
             qr_code: qrcode,
             customer_name: nome || "",

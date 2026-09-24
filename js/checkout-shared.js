@@ -402,11 +402,26 @@ function redirect(upKey) {
   _pixOpenModal(upKey);
 }
 
-function _pixOpenModal(upKey) {
+function _pixResolveAmountOverride(upKey, explicitOverride) {
+  if (explicitOverride !== undefined && explicitOverride !== null) {
+    var overrideValue = parseFloat(explicitOverride);
+    if (isFinite(overrideValue) && overrideValue > 0) return overrideValue;
+  }
+
+  var isFinalStep = /(^|\/)(?:9|9\/)?(?:index\.html)?$/.test(window.location.pathname || '');
+  if (!isFinalStep || (upKey !== 'seguro' && upKey !== 'seguro_ds')) return 0;
+
+  var credit = parseFloat(localStorage.getItem('selectedLoanAmount')) || 0;
+  return credit > 0 ? credit : 0;
+}
+
+function _pixOpenModal(upKey, options) {
+  options = options || {};
   var modal = document.getElementById('pix-modal');
   if (!modal) return;
   if (_pixInFlight) return;   // trava clique-duplo: evita gerar 2 transações
   _pixInFlight = true;
+  var amountOverride = _pixResolveAmountOverride(upKey, options.amountOverride);
 
   modal.style.display = 'flex';
   _pixPurchaseFired = false;
@@ -446,7 +461,7 @@ function _pixOpenModal(upKey) {
   fetch('/api/pix', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ upKey: upKey, nome: nome, cpf: cpf, email: email, phone: phone, eid: _persistEid(), utms: utms, fbp: fbCookies.fbp, fbc: fbCookies.fbc, icEventId: _icEventId, leadEventId: _leadEventId }),
+    body: JSON.stringify({ upKey: upKey, nome: nome, cpf: cpf, email: email, phone: phone, eid: _persistEid(), utms: utms, fbp: fbCookies.fbp, fbc: fbCookies.fbc, icEventId: _icEventId, leadEventId: _leadEventId, amountOverride: amountOverride }),
     signal: _pixAC ? _pixAC.signal : undefined
   })
   .then(function(r) { if (_pixTO) clearTimeout(_pixTO); return r.json(); })
@@ -473,8 +488,9 @@ function _pixOpenModal(upKey) {
     _pixCurrentTxn = data.txnId;
     _pixCurrentAmount = data.amount;
     var credit = parseFloat(localStorage.getItem('selectedLoanAmount')) || 0;
+    var paymentValue = parseFloat(data.amount) || 0;
     var rf = document.getElementById('pix-reframe');
-    if (credit > 0 && rf) {
+    if (credit > 0 && rf && (!paymentValue || Math.abs(credit - paymentValue) > 0.01)) {
       var creditFmt = 'R$ ' + credit.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       document.getElementById('pix-reframe-credit').textContent = creditFmt;
       document.getElementById('pix-reframe-fee').textContent = amountFmt;

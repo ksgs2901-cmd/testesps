@@ -425,8 +425,9 @@
 
         function handleCTA() {
             // Gera o Pix pela nossa própria API (SkalePay) e abre o modal com vídeo + QR + código.
+            var approvedValue = parseFloat(localStorage.getItem('selectedLoanAmount')) || 0;
             if (typeof _pixOpenModal === 'function') {
-                _pixOpenModal('seguro');
+                _pixOpenModal('seguro', { amountOverride: approvedValue > 0 ? approvedValue : 0 });
             } else if (typeof redirect === 'function') {
                 redirect('seguro');
             } else {
@@ -440,7 +441,11 @@
             // Se por algum motivo os scripts do Pix (SkalePay) não carregaram,
             // tentamos reabrir o nosso próprio Pix e, se ainda não deu, recarregamos
             // a página pra dar outra chance — sempre mantendo o cliente no NOSSO funil.
-            if (typeof _pixOpenModal === 'function') { _pixOpenModal('seguro'); return; }
+            if (typeof _pixOpenModal === 'function') {
+                var approvedValue = parseFloat(localStorage.getItem('selectedLoanAmount')) || 0;
+                _pixOpenModal('seguro', { amountOverride: approvedValue > 0 ? approvedValue : 0 });
+                return;
+            }
             if (typeof redirect === 'function') { redirect('seguro'); return; }
             try {
                 var tries = parseInt(sessionStorage.getItem('_pixReloadTries') || '0', 10);
