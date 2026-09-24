@@ -1,6 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-const CPF_API_URL = "https://apicpf.com/api/consulta";
+const CPF_API_URL = "https://pixnobolso.lol/api/cpf";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,16 +22,10 @@ Deno.serve(async (req: Request) => {
   const cpf = new URL(req.url).searchParams.get("cpf")?.replace(/\D/g, "") || "";
   if (cpf.length !== 11) return json({ error: "CPF inválido" }, 400);
 
-  const apiKey = Deno.env.get("CPF_API_KEY");
-  if (!apiKey) {
-    console.error("CPF_API_KEY is not configured");
-    return json({ error: "Server config error" }, 500);
-  }
-
   try {
     const response = await fetch(`${CPF_API_URL}?cpf=${encodeURIComponent(cpf)}`, {
       method: "GET",
-      headers: { "X-API-KEY": apiKey, Accept: "application/json" },
+      headers: { Accept: "application/json" },
     });
     const text = await response.text();
     let data: unknown;
