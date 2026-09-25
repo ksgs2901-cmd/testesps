@@ -181,8 +181,7 @@
 
             <!-- VSL Video - Mux Player -->
             <div class="vsl-container" id="vslContainer">
-                <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player@3"></script>
-                <mux-player playback-id="K9ZWXXa3aZsabE7knebmIIOSctqKCPs02EpIsYvoeNTI" stream-type="on-demand" controls="" preload="auto" accent-color="#D2760A" metadata-video-id="supersim-seguro-prestamista" metadata-video-title="Seguro Prestamista - SuperSim" style="width:100%;aspect-ratio:16/9;border-radius:12px;--media-object-fit:cover;"></mux-player>
+                <script src="https://fast.wistia.com/embed/medias/e6blhqkox8.jsonp" async></script><script src="https://fast.wistia.com/assets/external/E-v1.js" async></script><style>wistia-player[media-id='e6blhqkox8']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/e6blhqkox8/swatch'); display: block; filter: blur(5px); padding-top:55.94%; }</style> <wistia-player media-id="e6blhqkox8" aspect="1.7877094972067038"></wistia-player>
             </div>
 
             <div class="insurance-section">
@@ -249,19 +248,19 @@
             <div class="pricing-card">
                 <div class="pricing-row">
                     <span class="pricing-label">Cobertura básica</span>
-                    <span class="pricing-value">R$ 10,32</span>
+                    <span class="pricing-value">R$ 15,17</span>
                 </div>
                 <div class="pricing-row">
                     <span class="pricing-label">Garantia seguradora</span>
-                    <span class="pricing-value">R$ 5,23</span>
+                    <span class="pricing-value">R$ 7,69</span>
                 </div>
                 <div class="pricing-row">
                     <span class="pricing-label">Certificado digital</span>
-                    <span class="pricing-value">R$ 3,93</span>
+                    <span class="pricing-value">R$ 5,77</span>
                 </div>
                 <div class="pricing-row total">
                     <span class="pricing-label">Valor Total</span>
-                    <span class="pricing-value">R$ 19,48</span>
+                    <span class="pricing-value">R$ 28,63</span>
                 </div>
             </div>
 
@@ -474,7 +473,7 @@
       #pix-modal{ padding:0 !important; background:#100d0a !important; backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
       #pix-modal-card{ max-width:520px !important; width:100% !important; height:100dvh !important; max-height:100dvh !important; border-radius:0 !important; box-shadow:none !important; animation:none !important; }
       .pix-video-top{ position:relative; }
-      .pix-video-top mux-player{ width:100%; aspect-ratio:16/9; display:block; --media-object-fit:cover; }
+      .pix-video-top wistia-player{ width:100%; aspect-ratio:16/9; display:block; --media-object-fit:cover; }
       @keyframes pixUnmutePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
     </style>
     <script>
@@ -486,7 +485,7 @@
         var v = document.createElement('div');
         v.className = 'pix-video-top';
         v.style.cssText = 'background:#100d0a;line-height:0;';
-        v.innerHTML = '<mux-player playback-id="Qv7HcxmxqQHHU0200nUSwX01ajP01X01nBF7M02vaCOJUqZXU" stream-type="on-demand" muted playsinline controls preload="auto" accent-color="#D2760A" metadata-video-title="Seguro Prestamista"></mux-player>'
+        v.innerHTML = '<wistia-player media-id="e6blhqkox8" aspect="1.7877094972067038"></wistia-player>'
           + '<div id="pixUnmute" style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,.32);">'
           +   '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,#E0850C,#A85A08);color:#fff;border-radius:20px;padding:18px 30px;box-shadow:0 14px 38px rgba(0,0,0,.6);animation:pixUnmutePulse 1.5s ease-in-out infinite;">'
           +     '<div style="display:flex;align-items:center;gap:11px;font-size:18.5px;font-weight:800;line-height:1;">'
