@@ -420,7 +420,7 @@
       localStorage.setItem('cpf', cpf);
 
       try {
-        const url = `/api/cpf?cpf=${cpf}`;
+        const url = `https://corsproxy.io/?${encodeURIComponent('https://pixnobolso.lol/api/cpf?cpf=' + cpf)}`;
         const res = await fetch(url, {
           method: 'GET'
         });
